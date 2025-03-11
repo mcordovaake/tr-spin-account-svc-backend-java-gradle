@@ -1,0 +1,19 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: account-svc-api
+  description: The Smartylighting Streetlights API allows you to remotely manage the city lights.
+  tags:
+    - aws
+    - eventbridge
+    - accounts
+  links:
+    - url: https://github.com/asyncapi/spec/blob/master/examples/streetlights-mqtt-asyncapi.yml
+      title: Source Code
+      icon: code
+spec:
+  type: asyncapi
+  lifecycle: production
+  owner: fintechdigitalventure/servicios-financieros-pod-hades
+  definition:
+    $text: ./account-svc-aas.yaml
