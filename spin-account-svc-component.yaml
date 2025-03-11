@@ -31,4 +31,4 @@ spec:
   owner: fintechdigitalventure/spin-pod-hercules-kyc
   system: spin_oxxo_pos_activacion_de_cuentas
   providesApis:
-    - ./asyncapis/spin-account-svc-api
+    - spin-account-svc-api
