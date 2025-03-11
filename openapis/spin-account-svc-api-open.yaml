@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: spin-account-svc-api
+  name: spin-account-svc-api-open
   description: The Smartylighting Streetlights API allows you to remotely manage the city lights.
   tags:
     - java
@@ -17,4 +17,4 @@ spec:
   owner: fintechdigitalventure/servicios-financieros-pod-hades
   system: spin_oxxo_pos_activacion_de_cuentas
   definition:
-    $text: ./spin-account-svc-oas.yaml
+    $text: ./spin-account-svc-api-oas.yaml
