@@ -30,5 +30,5 @@ spec:
   type: service
   owner: fintechdigitalventure/spin-pod-hercules-kyc
   lifecycle: production
-providesApis:
-  - asyncapis/spin-account-svc-api
+  providesApis:
+    - asyncapis/spin-account-svc-api
