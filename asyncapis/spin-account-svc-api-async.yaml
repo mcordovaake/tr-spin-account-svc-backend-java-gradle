@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: spin-account-svc-api
+  name: spin-account-svc-api-async
   description: The Smartylighting Streetlights API allows you to remotely manage the city lights.
   tags:
     - aws
