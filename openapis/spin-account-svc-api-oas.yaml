@@ -1,0 +1,5001 @@
+openapi: 3.0.1
+info:
+  title: Account Service API
+  description: 'Build Hash: abe1f7c736'
+  version: '1.0'
+servers:
+  - url: https://dev-gen-internal2.api.oxxofintech.com.mx/account-service
+    description: Generated server url
+paths:
+  /pictures/{id}:
+    get:
+      tags:
+        - user-controller
+      summary: Get Avatar
+      operationId: generateGetRequest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: apiKey
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '302':
+          description: Found
+    put:
+      tags:
+        - user-controller
+      summary: Add Avatar
+      operationId: generatePutRequest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: apiKey
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: requestEntity
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              format: byte
+        - name: Content-Type
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+      deprecated: true
+  /avatar:
+    put:
+      tags:
+        - user-controller
+      summary: Add Avatar
+      operationId: updateProfileAvatar
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: requestEntity
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              format: byte
+      responses:
+        '201':
+          description: Created
+  /accounts/v2/pending-accounts:
+    put:
+      tags:
+        - pending-account-controller
+      summary: Upsert a pending account
+      operationId: upsertPendingAccountV2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertPendingAccountRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PendingAccountDTO'
+  /accounts/v1/{userId}/teens:
+    get:
+      tags:
+        - account-teen-controller
+      summary: Retrieve all the teen accounts by an associated parent account
+      operationId: findAllByParent
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: phone
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: code
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeenResponseDTO'
+    put:
+      tags:
+        - account-teen-controller
+      operationId: updateTeenAccount
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeenRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeenResponseDTO'
+    post:
+      tags:
+        - account-teen-controller
+      summary: Pre register a teen account
+      operationId: preRegisterTeenAccount
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeenRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeenResponseDTO'
+  /accounts/v1/{userId}/teens/{teenId}:
+    put:
+      tags:
+        - account-teen-controller
+      operationId: registerTeenAccount
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: teenId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeenRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeenResponseDTO'
+    patch:
+      tags:
+        - account-teen-controller
+      operationId: patchTeenAccount
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: teenId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeenRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeenResponseDTO'
+  /accounts/address:
+    put:
+      tags:
+        - user-controller
+      summary: Updates Account Address
+      operationId: updateAccountAddress
+      parameters:
+        - name: x-location-latitude
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: x-location-longitude
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAddressDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+      deprecated: true
+  /v2/accounts:
+    post:
+      tags:
+        - user-controller
+      summary: Create an account with INCODE info
+      operationId: createAccountV2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountV2RequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponseDTO'
+  /v1/accounts/pending-accounts:
+    post:
+      tags:
+        - pending-account-controller
+      summary: Create a new pending account for the omnichannel onboarding
+      operationId: insertPendingAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PendingAccountV1DTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatePendingAccountResponseDTO'
+  /user-data/{userId}/biometrics:
+    post:
+      tags:
+        - user-biometrics-controller
+      summary: Save user biometrics
+      operationId: saveUserBiometrics
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserBiometricsDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /task/{task}/execute:
+    post:
+      tags:
+        - async-task-controller
+      summary: Trigger a task execution asynchronously
+      operationId: triggerTaskExecution
+      parameters:
+        - name: task
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - ACCOUNT_CREATION_REWARD_REMINDER
+              - EMAIL_VALIDATION_REMINDER
+              - PHONE_VERIFICATION_REMINDER
+              - BLOCK_EXPIRED_IDENTIFICATION_DOCUMENT
+              - MONTHLY_STATEMENTS_FILE_GENERATION
+              - LINK_ACCOUNT_NUMBER_WHEN_MISSING
+              - CLABE_STATUS_SYNCHRONIZATION
+              - TRANSACTION_ACCUMULATION_PER_USER
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AsyncTaskExecutionParamsDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+  /policy:
+    post:
+      tags:
+        - agreements-controller
+      summary: Creates a new policy
+      operationId: createAgreementRecord
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PolicyResponseDTO'
+  /femsa-employees:
+    get:
+      tags:
+        - femsa-employee-controller
+      summary: Get FEMSA employees
+      operationId: getFemsaEmployee
+      parameters:
+        - name: curp
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FemsaEmployeesDTO'
+    post:
+      tags:
+        - femsa-employee-controller
+      summary: Upsert FEMSA employees
+      operationId: upsertFemsaEmployees
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FemsaEmployeesDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FemsaEmployeesUpsertResultDTO'
+    delete:
+      tags:
+        - femsa-employee-controller
+      summary: Delete FEMSA employee by CURP
+      operationId: deleteFemsaEmployees
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FemsaEmployeesDeleteRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+  /favorites:
+    post:
+      tags:
+        - account-favorites-controller
+      summary: save user's favorites
+      operationId: saveFavorites
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FavoritesRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '400':
+          description: Sintax or semantic errors
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+        '503':
+          description: Service Unavailable
+  /externalIntegrations:
+    post:
+      tags:
+        - user-assets-controller
+      summary: Creates an external integration of a certain type for the indicated user
+      operationId: createAccountExternalIntegration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExternalIntegrationRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalIntegrationsResponseDTO'
+    patch:
+      tags:
+        - user-assets-controller
+      summary: update an external integration of a certain type for the indicated user
+      operationId: updateAccountExternalIntegration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExternalIntegrationRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalIntegrationsResponseDTO'
+  /employees/upload-file:
+    post:
+      tags:
+        - employee-controller
+      summary: Upload employees file
+      operationId: loadCompanyFile
+      parameters:
+        - name: companyId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: operation
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - UPGRADE
+              - DOWNGRADE
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - curp_file
+              type: object
+              properties:
+                curp_file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EmployeeFileResponseDTO'
+  /employees/upgrade-process:
+    post:
+      tags:
+        - employee-controller
+      summary: Trigger the Upgrade/downgrade file process
+      operationId: process
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileUpgradeRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EmployeeFileResponseDTO'
+  /employees/company:
+    get:
+      tags:
+        - company-controller
+      summary: Get all companies
+      operationId: findAll
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompanyResponseDTO'
+    post:
+      tags:
+        - company-controller
+      summary: Create a company
+      operationId: save
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CompanyResponseDTO'
+  /email/verification:
+    post:
+      tags:
+        - user-controller
+      summary: Verify Email
+      operationId: emailVerification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailVerificationRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+  /blacklists/{blacklist}/identity:
+    get:
+      tags:
+        - spin-blacklist-controller
+      summary: Find identities on blacklist
+      operationId: findSpinBlacklistedIdentities
+      parameters:
+        - name: blacklist
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - ENROLLMENT
+        - name: identifier
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SpinBlacklistedIdentityDTO'
+      deprecated: true
+    post:
+      tags:
+        - spin-blacklist-controller
+      summary: Add identity to spin blacklist
+      operationId: addIdentityToSpinBlacklist
+      parameters:
+        - name: blacklist
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - ENROLLMENT
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpinBlacklistedIdentityRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpinBlacklistedIdentityDTO'
+    delete:
+      tags:
+        - spin-blacklist-controller
+      summary: Get agreements policies
+      operationId: removeIdentityFromSpinBlacklist
+      parameters:
+        - name: blacklist
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - ENROLLMENT
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpinBlacklistedIdentityDeletionRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  /banking-accounts:
+    post:
+      tags:
+        - bank-account-controller
+      summary: create new banking account
+      operationId: createBankingAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBankingAccountRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CreateBankingAccountResponseDTO'
+  /agreements:
+    get:
+      tags:
+        - agreements-controller
+      summary: Get customer agreements
+      operationId: getAgreements
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AgreementResponseDTO'
+    post:
+      tags:
+        - agreements-controller
+      summary: Create a customer agreement
+      operationId: createAgreement
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgreementRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /accounts:
+    get:
+      tags:
+        - user-controller
+      summary: List all Accounts
+      operationId: getAllAccounts
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FullAccountResponseDTO'
+      deprecated: true
+    post:
+      tags:
+        - user-controller
+      summary: Create an account
+      operationId: createAccount
+      parameters:
+        - name: x-location-latitude
+          in: header
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: x-location-longitude
+          in: header
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: x-device-id
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountCreationRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponseDTO'
+    delete:
+      tags:
+        - user-controller
+      summary: Soft delete Account
+      operationId: deleteAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserIdRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+    patch:
+      tags:
+        - user-controller
+      summary: Link banking account number
+      operationId: linkAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkBankingAccountRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponseDTO'
+  /accounts/v3/pending-accounts/curps:
+    post:
+      tags:
+        - pending-account-controller
+      summary: CURP validation for digital onboarding using a pending account
+      operationId: curpValidationV3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CurpValidationRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+  /accounts/v2:
+    post:
+      tags:
+        - user-controller
+      summary: Create an account for Digital Onboarding
+      operationId: createNaturalAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountDigitalOnboardingRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponseDTO'
+  /accounts/v2/pending-accounts/government-validations:
+    post:
+      tags:
+        - pending-account-controller
+      summary: Goverment Validations for new digital onboarding using a pending account
+      operationId: govermentValidationsV2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertPendingAccountRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+  /accounts/v2/pending-accounts/curps:
+    post:
+      tags:
+        - pending-account-controller
+      summary: CURP validation for digital onboarding using a pending account
+      operationId: curpValidationV2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CurpValidationRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+  /accounts/v1/{userId}/debit-accounts:
+    post:
+      tags:
+        - account-debit-controller
+      summary: Create an account
+      operationId: createDebitAccount
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountDebitRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponseDTO'
+  /accounts/v1/teens:
+    post:
+      tags:
+        - account-teen-controller
+      summary: Create a teen account
+      operationId: createTeenAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeenAccountRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponseDTO'
+  /accounts/v1/legal-entities:
+    post:
+      tags:
+        - account-legal-entity-controller
+      summary: Create a legal entity account from Xhash Dashboard event
+      operationId: processLegalEntity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LegalEntityRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '400':
+          description: Sintax or semantic errors
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
+        '503':
+          description: Service Unavailable
+  /accounts/username:
+    post:
+      tags:
+        - user-controller
+      summary: Find Accounts by Their Usernames
+      operationId: findAccountsByUsernameDeprecated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindAccountsByUsernameRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindAccountsResponseDTO'
+      deprecated: true
+  /accounts/qualification/upgrade:
+    post:
+      tags:
+        - account-upgrade-controller
+      summary: Upgrade account qualification
+      operationId: upgradeAccountQualification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountQualificationUpgradeRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountUpgradeQualificationResponseDTO'
+  /accounts/qualification/upgrade/v3:
+    post:
+      tags:
+        - account-upgrade-controller
+      summary: Try to asynchronously upgrade account qualification to N2
+      operationId: upgradeAccountQualificationV3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountQualificationUpgradeRequestV2DTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountUpgradeQualificationResponseDTO'
+  /accounts/qualification/upgrade/v2:
+    post:
+      tags:
+        - account-upgrade-controller
+      summary: Try to automatically upgrade account qualification to N2
+      operationId: upgradeAccountQualification_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountQualificationUpgradeRequestV2DTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountUpgradeQualificationResponseDTO'
+  /accounts/qualification/upgrade/n3:
+    post:
+      tags:
+        - account-upgrade-controller
+      summary: Upgrade account qualification to N3
+      operationId: upgradeAccountQualificationN3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountQualificationUpgradeN3RequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountUpgradeQualificationResponseDTO'
+  /accounts/qualification/upgrade/manual:
+    post:
+      tags:
+        - account-upgrade-controller
+      summary: Verify account documentation to upgrade it if applies.
+      operationId: upgradeAccount
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: documentType
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - INE
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpgradeResponseDTO'
+  /accounts/qualification/upgrade/manual/v2:
+    post:
+      tags:
+        - account-upgrade-controller
+      summary: Finalize an Incode upgrade to N2 process
+      operationId: upgradeAccountV2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpgradeFinalizeRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpgradeResponseDTO'
+  /accounts/phone:
+    post:
+      tags:
+        - user-controller
+      summary: Find Accounts by Their Phone Numbers
+      operationId: findAccountsByPhone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindAccountsByPhoneRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindAccountsResponseDTO'
+      deprecated: true
+  /accounts/pending:
+    get:
+      tags:
+        - pending-account-controller
+      summary: Get a pending account by PHONE or userId
+      operationId: getPendingAccount
+      parameters:
+        - name: request
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/PendingAccountRequestDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PendingAccountDTO'
+    post:
+      tags:
+        - pending-account-controller
+      summary: Upsert a pending account
+      operationId: upsertPendingAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertPendingAccountRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PendingAccountDTO'
+    delete:
+      tags:
+        - pending-account-controller
+      summary: Delete a pending account
+      operationId: deletePendingAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserIdRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /accounts/pending/mock:
+    post:
+      tags:
+        - pending-account-controller
+      summary: Create a new Mock PendingAccount if not exist. If exist return the existing one
+      operationId: createMockPendingAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MockPendingAccountRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PendingAccountDTO'
+  /accounts/me/username:
+    post:
+      tags:
+        - user-controller
+      summary: Check Alias Availability
+      operationId: isUsernameAvailable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckUsernameAvailabilityRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckUsernameAvailabilityResponseDTO'
+      deprecated: true
+  /accounts/ine-autoupdate:
+    post:
+      tags:
+        - account-update-controller
+      summary: Try to automatically update INE document
+      operationId: automaticUpdateAccountIdentificationDocuments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountAutomaticUpdateIdentificationDocumentRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountAutomaticUpdateIdentificationDocumentDTO'
+  /accounts/ine-autoupdate/v2:
+    post:
+      tags:
+        - account-update-controller
+      summary: Try to automatically update INE document with Incode Service
+      operationId: automaticUpdateAccountIdentificationDocumentsv2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountAutomaticUpdateIdentificationDocumentRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountAutomaticUpdateIdentificationDocumentDTO'
+  /accounts/full:
+    post:
+      tags:
+        - user-controller
+      summary: Find full account objects by userIds or phone numbers or banking account numbers
+      operationId: getFullAccountsByUsername
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FullAccountByUsernameRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FullAccountListResponseDTO'
+      deprecated: true
+  /accounts/emails:
+    post:
+      tags:
+        - user-controller
+      summary: Find Accounts by emails
+      operationId: findAccountsByEmails
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindAccountsByEmailRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindAccountsResponseDTO'
+      deprecated: true
+  /accounts/email:
+    post:
+      tags:
+        - user-controller
+      summary: Find Accounts by Their Email Addresses
+      operationId: findAccountsByEmail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindAccountsByEmailRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindAccountsResponseDTO'
+      deprecated: true
+  /accounts/customer:
+    post:
+      tags:
+        - user-controller
+      summary: Create a customer through POS activation flow
+      operationId: createCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponseDTO'
+    patch:
+      tags:
+        - user-controller
+      summary: Link with Conekta customer id
+      operationId: linkWithConektaCustomerId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkConektaCustomerIdRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponseDTO'
+  /accounts/clabe:
+    post:
+      tags:
+        - user-controller
+      summary: Find Accounts by a CLABE
+      operationId: findAccountByCardNumber
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindAccountByClabeNumberRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FullAccountResponseDTO'
+      deprecated: true
+  /accounts/card-reference:
+    post:
+      tags:
+        - user-controller
+      summary: Find Accounts by a card number
+      operationId: findAccountByCardNumber_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindAccountByCardReferenceNumberRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FullAccountResponseDTO'
+      deprecated: true
+  /accounts/card-reference-number:
+    post:
+      tags:
+        - user-controller
+      summary: Generate and update card reference number for a given userId only when such field has Error as value
+      operationId: generateCardReferenceNumber
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardReferenceNumberRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+  /accounts/cancelation:
+    post:
+      tags:
+        - cancelled-account-controller
+      summary: Cancel an account
+      operationId: cancelAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountCancellationRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountCancellationResponseDTO'
+  /accounts/block:
+    get:
+      tags:
+        - blocked-account-controller
+      summary: Get a blocked account
+      operationId: getBlockedAccount
+      parameters:
+        - name: request
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/BlockedAccountRequestDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockedAccountDTO'
+    post:
+      tags:
+        - blocked-account-controller
+      summary: Add a block code to an account
+      operationId: addBlockToAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountBlockRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockedAccountDTO'
+    delete:
+      tags:
+        - blocked-account-controller
+      summary: Remove a block code from an account
+      operationId: removeBlockFromAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountUnblockRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockedAccountDTO'
+  /accounts/billing:
+    get:
+      tags:
+        - billing-controller
+      summary: Gets billing information by userId
+      operationId: getBillingInformation
+      parameters:
+        - name: billingInformationGetRequestDTO
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/BillingInformationGetRequestDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingInformationDTO'
+    post:
+      tags:
+        - billing-controller
+      summary: Saves billing information by userId
+      operationId: saveBillingInformation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BillingInformationDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /v2/accounts/customer/profile:
+    patch:
+      tags:
+        - user-controller
+      summary: Updates Customer Profile (all systems fiserv, cognito, BL, mongo, etc...)
+      operationId: updateCustomerProfile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomerProfileRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+  /v1/accounts/pending-accounts/{accountId}:
+    patch:
+      tags:
+        - pending-account-controller
+      summary: Update a pending account for the omnichannel onboarding
+      operationId: updatePendingAccount
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PendingAccountV1DTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PendingAccountV1DTO'
+  /accounts/{userId}/identification-documents:
+    patch:
+      tags:
+        - account-update-controller
+      summary: Update identification documents
+      operationId: updateAccountIdentificationDocuments
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateIdentificationDocumentsResponseDTO'
+  /accounts/v1/{userId}:
+    patch:
+      tags:
+        - account-update-controller
+      summary: Update profile attributes for blocked users by 1FA and 2FA flow
+      operationId: updateBlockedUsersEmail
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccountPersonalInfoRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+  /accounts/rejected-documents:
+    patch:
+      tags:
+        - account-update-controller
+      summary: Update documents rejected
+      operationId: updateDocumentsRejected
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentRejectedRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /accounts/pending/reset:
+    patch:
+      tags:
+        - pending-account-controller
+      summary: Reset pending account
+      operationId: resetPendingAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPendingAccountRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PendingAccountDTO'
+  /accounts/identification-documents/v2:
+    patch:
+      tags:
+        - account-update-controller
+      summary: Update identification documents
+      operationId: updateAccountIdentificationDocumentsV2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFinalizeRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateIdentificationDocumentsResponseDTO'
+  /accounts/customer/reset:
+    patch:
+      tags:
+        - bank-account-controller
+      summary: set default values to customer & remove banking account qualification
+      operationId: resetBankingCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserIdRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+  /accounts/customer/profile:
+    patch:
+      tags:
+        - user-controller
+      summary: Updates Customer Profile (all systems fiserv, cognito, BL, mongo, etc...)
+      operationId: updateCustomerProfileDeprecated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomerProfileRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+      deprecated: true
+  /accounts/customer/profile/temporal-email:
+    patch:
+      tags:
+        - user-controller
+      summary: Update temporalNewEmail in customer profile information. It is used in Update Email from Locked users flow
+      operationId: updateCustomerTemporalNewEmail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTemporalEmailRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+  /accounts/completed:
+    patch:
+      tags:
+        - user-controller
+      summary: Deem user account as completed
+      operationId: markUserAccountAsCompleted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeemAccountCompletedRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+  /accounts/clabe/status:
+    patch:
+      tags:
+        - bank-account-controller
+      summary: Update the status of a CLABE
+      operationId: updateClabeStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClabeStatusUpdateRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /accounts/clabe-speis:
+    patch:
+      tags:
+        - account-update-controller
+      summary: 'Update ConfirmClabeUpdatedAt when user confirm new SPEI onboarding '
+      operationId: updateConfirmClabeSpeis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateConfirmClabeSpeisRequestDTO'
+        required: true
+      responses:
+        '204':
+          description: No Content
+  /v2/pictures/{id}:
+    get:
+      tags:
+        - user-controller
+      summary: Get Avatar
+      operationId: generateGetRequestV2
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: apiKey
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenerateAvatarResponseDTO'
+  /users/info:
+    get:
+      tags:
+        - user-controller
+      summary: Find a full accounts object by a given list of arguments, they can be phone, first name + last name + mother's last name, etc.
+      operationId: findUserInfoList
+      parameters:
+        - name: userSearchListPropertiesDTO
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserSearchListPropertiesDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponseDTO'
+  /users/info/all:
+    get:
+      tags:
+        - user-controller
+      summary: List all Users Information
+      operationId: getAllUserInfo
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponseDTO'
+  /user/info:
+    get:
+      tags:
+        - user-controller
+      summary: Find a full account object by a given list of arguments, they can be phone, first name + last name + mother's last name, etc.
+      operationId: findUserInfo
+      parameters:
+        - name: request
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserInfoRequestDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseDTO'
+  /unique-user-id:
+    get:
+      tags:
+        - user-controller
+      summary: Generate unique userId
+      operationId: generateUniqueUserId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserIdResponseDTO'
+  /tracks:
+    get:
+      tags:
+        - track-controller
+      summary: Get tracks
+      operationId: getTrack
+      parameters:
+        - name: type
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - ONBOARDING
+              - ACTIVATION
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrackResponseDTO'
+  /employees/upload-file/status:
+    get:
+      tags:
+        - employee-controller
+      summary: GET status file
+      operationId: getStatusFile
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EmployeeFileResponseDTO'
+  /agreements/policies:
+    get:
+      tags:
+        - agreements-controller
+      summary: Get agreements policies
+      operationId: getAgreementsPolicies
+      parameters:
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - MIOXXO_TERMS_AND_CONDITIONS
+              - TERMS_AND_CONDITIONS
+              - MIOXXO_PRIVACY
+              - PRIVACY
+              - REMITTANCES_MANIFEST
+              - REMITTANCES_CONSENT
+              - PREMIA_TC
+              - ADHESION_CONTRACT
+              - SPIN_MORROS_PRIVACY
+              - SPIN_MORROS_TERMS_AND_CONDITIONS
+              - SPN_TERMS_AND_CONDITIONS
+              - SPN_PRIVACY_NOTICE
+              - CODI_TERMS_AND_CONDITIONS
+              - CODI_PRIVACY_POLICY
+              - DIMO_TERMS_AND_CONDITIONS
+              - DIMO_PRIVACY_POLICY
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PolicyResponseDTO'
+  /accounts/v2/verifications:
+    get:
+      tags:
+        - user-controller
+      summary: Validate account creation against business rules
+      operationId: accountVerifications
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /accounts/status:
+    get:
+      tags:
+        - blocked-account-controller
+      summary: get account status
+      operationId: getAccountStatus
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Account information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountStatusDTO'
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountStatusDTO'
+  /accounts/range:
+    get:
+      tags:
+        - user-controller
+      summary: Get Accounts by Date range
+      operationId: getAccountsByDateRange
+      parameters:
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponseDTO'
+  /accounts/qualification/upgrade/n3/requirements:
+    get:
+      tags:
+        - account-upgrade-controller
+      summary: Validate requirements to upgrade account to N3
+      operationId: getValidationsUpgradeN3
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationsUpgradeN3ResponseDTO'
+  /accounts/me/qr:
+    get:
+      tags:
+        - user-controller
+      summary: Get QR Code For My Account
+      operationId: getMyAccountQrCode
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QrCodeResponseDTO'
+  /accounts/me/balance:
+    get:
+      tags:
+        - bank-account-controller
+      summary: Get my bank account balance
+      operationId: getMyAccountBalance
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponseDTO'
+      deprecated: true
+  /accounts/first-name-and-last-names:
+    get:
+      tags:
+        - user-controller
+      summary: Get Accounts by First Name and Last Name
+      operationId: getAccountsByFirstNameAndLastNames
+      parameters:
+        - name: firstName
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: lastNameFather
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: lastNameMother
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindAccountsResponseDTO'
+      deprecated: true
+  /accounts/existence:
+    get:
+      tags:
+        - user-controller
+      summary: Check user account existence
+      operationId: checkAccountExistence
+      parameters:
+        - name: request
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/AccountExistenceRequestDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountExistenceResponseDTO'
+  /accounts/creation-check:
+    get:
+      tags:
+        - user-controller
+      summary: Validate account creation against business rules
+      operationId: validateAccountCreation
+      parameters:
+        - name: curp
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    AccountVerificationDTO:
+      type: object
+      properties:
+        antiSpoofing:
+          type: boolean
+        government:
+          type: boolean
+        status:
+          type: string
+        message:
+          type: string
+    AddressDTO:
+      required:
+        - street
+      type: object
+      properties:
+        zip:
+          pattern: \d{5}
+          type: string
+        street:
+          type: string
+        exterior:
+          type: string
+        interior:
+          type: string
+        municipality:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        updateAvailable:
+          type: boolean
+        manual:
+          type: boolean
+    PendingAccountPersonalInfoDTO:
+      required:
+        - countryOfBirthId
+        - curp
+        - dateOfBirth
+        - firstName
+        - gender
+        - lastNameP
+        - occupation
+      type: object
+      properties:
+        curp:
+          pattern: ^$|[a-zA-Z0-9]{18}
+          type: string
+        firstName:
+          type: string
+        lastNameP:
+          type: string
+        lastNameM:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        dateOfBirth:
+          type: string
+          format: date
+        stateOfBirthId:
+          type: string
+        occupation:
+          type: string
+        countryOfBirthId:
+          type: string
+        documentProof:
+          type: string
+        documentProofString:
+          type: string
+        originCountry:
+          type: string
+        countryAllowedToOnboarding:
+          type: boolean
+    UpsertPendingAccountRequestDTO:
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        phone:
+          type: string
+        deviceId:
+          type: string
+        firstName:
+          type: string
+        lastNameP:
+          type: string
+        nullifyLastNameMIfMissing:
+          type: boolean
+        lastNameM:
+          type: string
+        creationFlow:
+          type: string
+          enum:
+            - MOBILE
+            - POS
+            - MOBILE_SUPERAPP
+        mock:
+          type: boolean
+        email:
+          type: string
+        personalInfo:
+          $ref: '#/components/schemas/PendingAccountPersonalInfoDTO'
+        address:
+          $ref: '#/components/schemas/AddressDTO'
+        sessionId:
+          type: string
+        teenId:
+          type: string
+        verification:
+          $ref: '#/components/schemas/AccountVerificationDTO'
+        jailBroken:
+          type: boolean
+        inReviewProcess:
+          type: boolean
+        reviewResult:
+          type: boolean
+        reviewCompleted:
+          type: boolean
+        hasBeenBlocked:
+          type: boolean
+        hasFacematch:
+          type: boolean
+        onboardingType:
+          type: string
+          enum:
+            - XHASH_1_0
+            - INCODE_1_0
+            - DIGITAL_1_0
+            - POS_2_0
+        actionType:
+          type: string
+          enum:
+            - ACCEPT
+            - BLOCK
+            - RETRY
+        hasGovernmentRetry:
+          type: boolean
+        selfieRetryNotificationSent:
+          type: boolean
+        hasAsyncCurpProcess:
+          type: boolean
+        identityDocumentNonce:
+          type: string
+    AccountVerification:
+      type: object
+      properties:
+        antiSpoofing:
+          type: boolean
+        government:
+          type: boolean
+        status:
+          type: string
+        message:
+          type: string
+    PendingAccountDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+        phone:
+          type: string
+        firstName:
+          type: string
+        lastNameP:
+          type: string
+        lastNameM:
+          type: string
+        creationFlow:
+          type: string
+          enum:
+            - MOBILE
+            - POS
+            - MOBILE_SUPERAPP
+        mock:
+          type: boolean
+        email:
+          type: string
+        personalInfo:
+          $ref: '#/components/schemas/PendingAccountPersonalInfoDTO'
+        address:
+          $ref: '#/components/schemas/AddressDTO'
+        sessionId:
+          type: string
+        teenId:
+          type: string
+        hasVerified:
+          type: boolean
+        inReviewProcess:
+          type: boolean
+        reviewCompleted:
+          type: boolean
+        reviewResult:
+          type: boolean
+        hasBeenBlocked:
+          type: boolean
+        verification:
+          $ref: '#/components/schemas/AccountVerification'
+        jailBroken:
+          type: boolean
+        onboardingType:
+          type: string
+          enum:
+            - XHASH_1_0
+            - INCODE_1_0
+            - DIGITAL_1_0
+            - POS_2_0
+        hasGovernmentRetry:
+          type: boolean
+        selfieRetryNotificationSent:
+          type: boolean
+        hasAsyncCurpProcess:
+          type: boolean
+        asyncCurpProcessTriggeredAt:
+          type: string
+          format: date-time
+    GuardianDTO:
+      required:
+        - curp
+        - dateOfBirth
+        - firstName
+        - gender
+        - lastNameM
+        - lastNameP
+      type: object
+      properties:
+        curp:
+          type: string
+        firstName:
+          type: string
+        lastNameP:
+          type: string
+        lastNameM:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        dateOfBirth:
+          type: string
+    PolicyDTO:
+      required:
+        - accepted
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - MIOXXO_TERMS_AND_CONDITIONS
+            - TERMS_AND_CONDITIONS
+            - MIOXXO_PRIVACY
+            - PRIVACY
+            - REMITTANCES_MANIFEST
+            - REMITTANCES_CONSENT
+            - PREMIA_TC
+            - ADHESION_CONTRACT
+            - SPIN_MORROS_PRIVACY
+            - SPIN_MORROS_TERMS_AND_CONDITIONS
+            - SPN_TERMS_AND_CONDITIONS
+            - SPN_PRIVACY_NOTICE
+            - CODI_TERMS_AND_CONDITIONS
+            - CODI_PRIVACY_POLICY
+            - DIMO_TERMS_AND_CONDITIONS
+            - DIMO_PRIVACY_POLICY
+        accepted:
+          type: boolean
+        version:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        signature:
+          type: string
+    TeenRequestDTO:
+      required:
+        - code
+        - curp
+        - dateOfBirth
+        - email
+        - firstName
+        - gender
+        - kindShipType
+        - lastNameM
+        - lastNameP
+        - parent
+        - phone
+        - policies
+        - reasonType
+        - stateOfBirth
+        - teenId
+      type: object
+      properties:
+        teenId:
+          type: string
+        relatedId:
+          type: string
+          deprecated: true
+        teenUserId:
+          type: string
+        curp:
+          type: string
+        firstName:
+          type: string
+        lastNameP:
+          type: string
+        lastNameM:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        dateOfBirth:
+          type: string
+        stateOfBirth:
+          type: string
+        phone:
+          pattern: \+52\d{10}
+          type: string
+        email:
+          pattern: ^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,15}$
+          type: string
+        sessionId:
+          type: string
+        isGovernmentVerified:
+          type: boolean
+        code:
+          type: string
+        expirationCode:
+          type: string
+          format: date-time
+        kindShipType:
+          type: string
+          enum:
+            - FATHER
+            - MOTHER
+        reasonType:
+          type: string
+          enum:
+            - SAVINGS
+            - EMERGENCIES
+            - EDUCATION_EXPENSES
+            - PERSONAL_EXPENSES
+            - FINANCIAL_HABITS
+        status:
+          type: string
+          enum:
+            - VALIDATING
+            - VALIDATED
+            - PENDING
+            - ACTIVATED
+            - REJECTED
+        policies:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyDTO'
+        parent:
+          $ref: '#/components/schemas/GuardianDTO'
+    TeenResponseDTO:
+      type: object
+      properties:
+        teenId:
+          type: string
+        relatedId:
+          type: string
+          deprecated: true
+        teenUserId:
+          type: string
+        parentUserId:
+          type: string
+        curp:
+          type: string
+        firstName:
+          type: string
+        lastNameP:
+          type: string
+        lastNameM:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        dateOfBirth:
+          type: string
+        stateOfBirth:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        sessionId:
+          type: string
+        isGovernmentVerified:
+          type: boolean
+        code:
+          type: string
+        expirationCode:
+          type: string
+          format: date-time
+        kindShipType:
+          type: string
+          enum:
+            - FATHER
+            - MOTHER
+        reasonType:
+          type: string
+          enum:
+            - SAVINGS
+            - EMERGENCIES
+            - EDUCATION_EXPENSES
+            - PERSONAL_EXPENSES
+            - FINANCIAL_HABITS
+        status:
+          type: string
+          enum:
+            - VALIDATING
+            - VALIDATED
+            - PENDING
+            - ACTIVATED
+            - REJECTED
+        policies:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyDTO'
+    UpdateAddressDTO:
+      required:
+        - reason
+        - street
+      type: object
+      properties:
+        zip:
+          pattern: \d{5}
+          type: string
+        street:
+          type: string
+        exterior:
+          type: string
+        interior:
+          type: string
+        municipality:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        updateAvailable:
+          type: boolean
+        manual:
+          type: boolean
+        reason:
+          type: string
+    AccountV2RequestDTO:
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        identificationDocumentType:
+          type: string
+          enum:
+            - INE
+            - PASSPORT
+    AccountResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        loginReferenceId:
+          type: string
+        username:
+          type: string
+        referralCode:
+          type: string
+        ineOcrNumber:
+          type: string
+        curp:
+          type: string
+        clabe:
+          type: string
+        clabeStatus:
+          type: string
+          enum:
+            - IN_REVIEW
+            - ACTIVE
+            - INACTIVE
+            - ERROR
+            - CREATED
+        personalInfo:
+          $ref: '#/components/schemas/PersonalInfoDTO'
+        signUpLocation:
+          $ref: '#/components/schemas/Location'
+        cardReferenceNumber:
+          type: string
+        avatarUrl:
+          type: string
+        qualification:
+          type: integer
+          format: int32
+        conektaCustomerId:
+          type: string
+        creationFlow:
+          type: string
+          enum:
+            - MOBILE
+            - POS
+            - MOBILE_SUPERAPP
+        onboardingCompleted:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        upgradedAt:
+          type: string
+          format: date-time
+        isPasswordBlocked:
+          type: boolean
+        accountNumber:
+          type: string
+        teenId:
+          type: string
+        userId:
+          type: string
+    Location:
+      type: object
+      properties:
+        longitude:
+          type: number
+          format: double
+        latitude:
+          type: number
+          format: double
+        ipAddress:
+          type: string
+        deviceId:
+          type: string
+        oxxoStoreId:
+          type: string
+    PersonalInfoDTO:
+      required:
+        - dateOfBirth
+        - email
+        - firstName
+        - gender
+        - lastNameP
+        - occupation
+        - phone
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastNameP:
+          type: string
+        lastNameM:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        pendingNewEmail:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        dateOfBirth:
+          type: string
+          format: date
+        stateOfBirth:
+          type: string
+        address:
+          $ref: '#/components/schemas/AddressDTO'
+        occupation:
+          type: string
+        countryOfBirthId:
+          type: string
+        nationalityIds:
+          type: array
+          items:
+            type: string
+        recentlyUpdatedPhone:
+          type: boolean
+        previousPhoneNumbers:
+          type: array
+          deprecated: true
+          items:
+            type: string
+            deprecated: true
+        previousPhoneNumbersHistory:
+          type: array
+          items:
+            $ref: '#/components/schemas/PreviousPhoneNumberDTO'
+        originCountry:
+          type: string
+        fullName:
+          type: string
+    PreviousPhoneNumberDTO:
+      type: object
+      properties:
+        phoneNumber:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        phoneChangeOrigin:
+          type: string
+          enum:
+            - MOBILE
+            - CALL_CENTER
+            - UNKNOWN
+    AuditDTO:
+      required:
+        - creationFlow
+        - onboardingType
+      type: object
+      properties:
+        createdAt:
+          type: string
+          format: date-time
+        creationFlow:
+          type: string
+          enum:
+            - MOBILE
+            - POS
+            - MOBILE_SUPERAPP
+        onboardingType:
+          type: string
+          enum:
+            - XHASH_1_0
+            - INCODE_1_0
+            - DIGITAL_1_0
+            - POS_2_0
+        isAddressManualInput:
+          type: boolean
+    ComplianceDTO:
+      type: object
+      properties:
+        sessionId:
+          type: string
+        token:
+          type: string
+    CustomerDTO:
+      type: object
+      properties:
+        phone:
+          type: string
+        email:
+          type: string
+        occupation:
+          type: string
+        address:
+          $ref: '#/components/schemas/AddressDTO'
+    PendingAccountV1DTO:
+      type: object
+      properties:
+        customer:
+          $ref: '#/components/schemas/CustomerDTO'
+        identityDocumentNonce:
+          type: string
+        policies:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyDTO'
+        audit:
+          $ref: '#/components/schemas/AuditDTO'
+        promotion:
+          $ref: '#/components/schemas/PromotionDTO'
+        compliance:
+          $ref: '#/components/schemas/ComplianceDTO'
+    PromotionDTO:
+      type: object
+      properties:
+        optInForPromotions:
+          type: boolean
+    CreatePendingAccountResponseDTO:
+      type: object
+      properties:
+        accountId:
+          type: string
+    UserBiometricsDTO:
+      type: object
+      properties:
+        identificationFaceMatch:
+          type: boolean
+        confidence:
+          type: number
+          format: double
+        similarity:
+          type: number
+          format: double
+        livenessOverall:
+          type: number
+          format: double
+        faceRecognitionOverall:
+          type: number
+          format: double
+        attempts:
+          type: integer
+          format: int32
+        selfieValidationInProgress:
+          type: boolean
+        isManualValidated:
+          type: boolean
+        faceMatchStatus:
+          type: string
+          enum:
+            - COMPLETED
+            - IN_REVIEW
+            - RETRY
+            - RETRY_WARNING
+    AsyncTaskExecutionParamsDTO:
+      type: object
+      properties:
+        year:
+          type: integer
+          format: int32
+        month:
+          type: integer
+          format: int32
+        batches:
+          type: integer
+          format: int32
+        threads:
+          type: integer
+          format: int32
+        offsetHours:
+          type: integer
+          format: int32
+        batchSize:
+          type: integer
+          format: int32
+    PolicyRequestDTO:
+      required:
+        - type
+      type: object
+      properties:
+        version:
+          type: string
+        type:
+          type: string
+          enum:
+            - MIOXXO_TERMS_AND_CONDITIONS
+            - TERMS_AND_CONDITIONS
+            - MIOXXO_PRIVACY
+            - PRIVACY
+            - REMITTANCES_MANIFEST
+            - REMITTANCES_CONSENT
+            - PREMIA_TC
+            - ADHESION_CONTRACT
+            - SPIN_MORROS_PRIVACY
+            - SPIN_MORROS_TERMS_AND_CONDITIONS
+            - SPN_TERMS_AND_CONDITIONS
+            - SPN_PRIVACY_NOTICE
+            - CODI_TERMS_AND_CONDITIONS
+            - CODI_PRIVACY_POLICY
+            - DIMO_TERMS_AND_CONDITIONS
+            - DIMO_PRIVACY_POLICY
+        pdfUrl:
+          type: string
+        htmlUrl:
+          type: string
+        text:
+          type: string
+        acceptanceDeadLine:
+          type: string
+          format: date
+    PolicyResponseDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - MIOXXO_TERMS_AND_CONDITIONS
+            - TERMS_AND_CONDITIONS
+            - MIOXXO_PRIVACY
+            - PRIVACY
+            - REMITTANCES_MANIFEST
+            - REMITTANCES_CONSENT
+            - PREMIA_TC
+            - ADHESION_CONTRACT
+            - SPIN_MORROS_PRIVACY
+            - SPIN_MORROS_TERMS_AND_CONDITIONS
+            - SPN_TERMS_AND_CONDITIONS
+            - SPN_PRIVACY_NOTICE
+            - CODI_TERMS_AND_CONDITIONS
+            - CODI_PRIVACY_POLICY
+            - DIMO_TERMS_AND_CONDITIONS
+            - DIMO_PRIVACY_POLICY
+        title:
+          type: string
+        version:
+          type: string
+        html:
+          type: string
+        pdf:
+          type: string
+        url:
+          type: string
+        text:
+          type: string
+    FemsaEmployeeDTO:
+      required:
+        - curp
+        - staffNumber
+      type: object
+      properties:
+        curp:
+          type: string
+        staffNumber:
+          type: string
+        name:
+          type: string
+    FemsaEmployeesDTO:
+      required:
+        - employees
+      type: object
+      properties:
+        employees:
+          type: array
+          items:
+            $ref: '#/components/schemas/FemsaEmployeeDTO'
+    FemsaEmployeesUpsertResultDTO:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int32
+        inserted:
+          type: integer
+          format: int32
+        updated:
+          type: integer
+          format: int32
+        skipped:
+          type: integer
+          format: int32
+    FavoritesRequestDTO:
+      required:
+        - favorites
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        favorites:
+          type: array
+          items:
+            type: string
+    ExternalIntegrationRequestDTO:
+      required:
+        - type
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        type:
+          type: string
+          enum:
+            - APPSFLYER
+            - FIREBASE
+        data:
+          type: object
+          additionalProperties:
+            type: object
+    ExternalIntegrationDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - APPSFLYER
+            - FIREBASE
+        data:
+          type: object
+          additionalProperties:
+            type: object
+    ExternalIntegrationsResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        integrations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalIntegrationDTO'
+    EmployeeFileResponseDTO:
+      type: object
+      properties:
+        fileId:
+          type: string
+        status:
+          type: string
+          enum:
+            - SAVING
+            - SAVED
+            - PROCESSING
+            - PROCESSED
+        operationType:
+          type: string
+          enum:
+            - UPGRADE
+            - DOWNGRADE
+        uploadFileExecutionDate:
+          $ref: '#/components/schemas/ExecutionDatesDTO'
+        processExecutionDates:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExecutionDatesDTO'
+    ExecutionDatesDTO:
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+    FileUpgradeRequestDTO:
+      type: object
+      properties:
+        fileId:
+          type: string
+    CompanyRequestDTO:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          pattern: ^[a-zA-Z\s]+$
+          type: string
+    CompanyResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    EmailVerificationRequestDTO:
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+    SpinBlacklistedIdentityRequestDTO:
+      required:
+        - addedBy
+        - identifierType
+        - identityIdentifier
+      type: object
+      properties:
+        identityIdentifier:
+          type: string
+        identifierType:
+          type: string
+          enum:
+            - CURP
+            - PHONE
+            - DEVICE_ID
+        comments:
+          type: string
+        addedBy:
+          type: string
+    SpinBlacklistedIdentityDTO:
+      type: object
+      properties:
+        blackList:
+          type: string
+          enum:
+            - ENROLLMENT
+            - DIGITAL_ONBOARDING
+        identifier:
+          type: string
+        identifierType:
+          type: string
+          enum:
+            - CURP
+            - PHONE
+            - DEVICE_ID
+        createdAt:
+          type: string
+          format: date-time
+        addedBy:
+          type: string
+        comments:
+          type: string
+    CreateBankingAccountRequestDTO:
+      required:
+        - bankingAccountQualification
+        - customerNumber
+      type: object
+      properties:
+        customerNumber:
+          type: string
+        bankingAccountQualification:
+          type: string
+          enum:
+            - N1_ACCOUNT
+            - N2_ACCOUNT
+            - N3_ACCOUNT
+            - N3_UNLIMITED_ACCOUNT
+    CreateBankingAccountResponseDTO:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+    AgreementRequestDTO:
+      required:
+        - policies
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        policies:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyDTO'
+    AccountCreationRequestDTO:
+      required:
+        - identificationDocumentType
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        identificationDocumentType:
+          type: string
+          enum:
+            - INE
+    CurpValidationRequestDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+        deviceId:
+          type: string
+        nonce:
+          type: string
+        isJB:
+          type: boolean
+    AccountDigitalOnboardingRequestDTO:
+      required:
+        - nonce
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        nonce:
+          type: string
+        identificationDocumentType:
+          type: string
+          enum:
+            - INE
+            - PASSPORT
+    AccountDebitRequestDTO:
+      type: object
+      properties:
+        configurations:
+          $ref: '#/components/schemas/DebitConfigurationDTO'
+    DebitConfigurationDTO:
+      type: object
+      properties:
+        isProccessAndValidateSelfieEnabled:
+          type: boolean
+        isBypassIneGovernmentValidationEnabled:
+          type: boolean
+        isCreateDigitalCardEnabled:
+          type: boolean
+        isOptInForPromotionsEnabled:
+          type: boolean
+    TeenAccountRequestDTO:
+      required:
+        - parentUserId
+        - pendingTeenAccountId
+        - teenAccountId
+      type: object
+      properties:
+        parentUserId:
+          type: string
+        teenAccountId:
+          type: string
+        pendingTeenAccountId:
+          type: string
+    LegalEntityAddress:
+      required:
+        - city
+        - country
+        - municipality
+        - state
+        - stateId
+        - street
+        - type
+      type: object
+      properties:
+        zip:
+          type: string
+        street:
+          type: string
+        streetNumber:
+          type: string
+        apartmentNumber:
+          type: string
+        municipality:
+          type: string
+        state:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+          enum:
+            - LEGAL
+            - NATURAL
+        stateId:
+          type: string
+    LegalEntityRequestDTO:
+      required:
+        - addresses
+        - businessName
+        - establishmentDate
+        - legalAccountId
+        - origin
+        - owners
+        - rfc
+      type: object
+      properties:
+        legalAccountId:
+          type: string
+        businessName:
+          type: string
+        commercialName:
+          type: string
+        rfc:
+          type: string
+        origin:
+          type: string
+          enum:
+            - LOCAL
+            - ORIGIN
+        establishmentDate:
+          type: string
+        economicActivity:
+          type: string
+        addresses:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/LegalEntityAddress'
+        owners:
+          maxItems: 2147483647
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Owner'
+    Owner:
+      required:
+        - address
+        - curp
+        - dateOfBirth
+        - email
+        - expiratedAt
+        - firstName
+        - fullName
+        - gender
+        - id
+        - ineKey
+        - ineType
+        - lastNameM
+        - lastNameP
+        - occupation
+        - ocrNumber
+        - phone
+        - type
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+            - ADMIN
+            - LEGAL_REPRESENTATIVE
+            - SHARED_HOLDER
+        firstName:
+          type: string
+        lastNameP:
+          type: string
+        lastNameM:
+          type: string
+        fullName:
+          type: string
+        phone:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        stateOfBirth:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        email:
+          type: string
+        curp:
+          type: string
+        occupation:
+          type: string
+        nationality:
+          type: string
+        cic:
+          type: string
+        cicDigitCheck:
+          type: string
+        dateCheckDigit:
+          type: string
+        expirationDateDigit:
+          type: string
+        ocrNumber:
+          type: string
+        issueAt:
+          type: string
+        expiratedAt:
+          type: string
+        ineKey:
+          type: string
+        ineType:
+          type: string
+        ineEmissionKey:
+          type: string
+        address:
+          $ref: '#/components/schemas/OwnerAddress'
+    OwnerAddress:
+      required:
+        - city
+        - municipality
+        - state
+        - stateId
+        - street
+        - zip
+      type: object
+      properties:
+        zip:
+          type: string
+        street:
+          type: string
+        streetNumber:
+          type: string
+        apartmentNumber:
+          type: string
+        municipality:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        stateId:
+          type: string
+    FindAccountsByUsernameRequestDTO:
+      required:
+        - username
+      type: object
+      properties:
+        username:
+          type: array
+          items:
+            type: string
+    FindAccountsResponseDTO:
+      type: object
+      properties:
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountResponseDTO'
+    AccountQualificationUpgradeRequestDTO:
+      required:
+        - ineType
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        ineType:
+          type: string
+        electorKey:
+          type: string
+        ocrNumber:
+          type: string
+        issueNumber:
+          type: string
+        cic:
+          type: string
+        ineFrontCurp:
+          type: string
+        ineBackDate:
+          type: string
+        ineFrontBirthDate:
+          type: string
+          format: date
+        antiSpoofingResult:
+          type: string
+          enum:
+            - NOT_EXECUTED
+            - PASSED
+            - NOT_PASSED
+            - BYPASSED
+            - FAILED
+        ineImageIds:
+          type: array
+          items:
+            type: string
+    AccountUpgradeQualificationResponseDTO:
+      type: object
+      properties:
+        ineValidationError:
+          type: boolean
+        upgradeGranted:
+          type: boolean
+        ineValidationMessages:
+          type: array
+          items:
+            type: string
+        ineValidationErrorMessages:
+          type: array
+          items:
+            type: string
+        ineInvalid:
+          type: boolean
+    AccountQualificationUpgradeRequestV2DTO:
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+    AccountQualificationUpgradeN3RequestDTO:
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+    UpgradeResponseDTO:
+      type: object
+      properties:
+        granted:
+          type: boolean
+        hasError:
+          type: boolean
+        validationMessages:
+          type: array
+          items:
+            type: string
+    UpgradeFinalizeRequestDTO:
+      required:
+        - identificationDocumentTypeDTO
+        - nonce
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        nonce:
+          type: string
+        identificationDocumentTypeDTO:
+          type: string
+          enum:
+            - INE
+    FindAccountsByPhoneRequestDTO:
+      required:
+        - phone
+      type: object
+      properties:
+        phone:
+          type: array
+          items:
+            type: string
+    MockPendingAccountRequestDTO:
+      type: object
+      properties:
+        phone:
+          type: string
+        email:
+          type: string
+        curp:
+          type: string
+    CheckUsernameAvailabilityRequestDTO:
+      type: object
+      properties:
+        username:
+          type: string
+    CheckUsernameAvailabilityResponseDTO:
+      type: object
+      properties:
+        available:
+          type: boolean
+    AccountAutomaticUpdateIdentificationDocumentRequestDTO:
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+    AccountAutomaticUpdateIdentificationDocumentDTO:
+      type: object
+      properties:
+        ineValidationError:
+          type: boolean
+        updateGranted:
+          type: boolean
+        ineValidationMessages:
+          type: array
+          items:
+            type: string
+        ineValidationErrorMessages:
+          type: array
+          items:
+            type: string
+        ineInvalid:
+          type: boolean
+    FullAccountByUsernameRequestDTO:
+      type: object
+      properties:
+        userIds:
+          type: array
+          items:
+            type: string
+        phoneNumbers:
+          type: array
+          items:
+            type: string
+        bankingAccountNumbers:
+          type: array
+          items:
+            type: string
+        includeBlockedAccountInfo:
+          type: boolean
+    AccountBlockCodeDTO:
+      type: object
+      properties:
+        blockCode:
+          type: string
+          enum:
+            - COMPLIANCE_AML
+            - FRAUD
+            - MISHANDLING
+            - VOLUNTARY_CANCELLATION
+            - DECEASED
+            - POSSIBLE_ACCOUNT_FRAUD
+            - PREVENTIVE_ACCOUNT_BLOCK
+            - STOLEN_CARD
+            - LOST_CARD
+            - DAMAGED_CARD
+            - CONFIRMED_CARD_FRAUD
+            - POSSIBLE_CARD_FRAUD
+            - PREVENTIVE_CARD_BLOCK
+            - CARD_BUSSINESS_BLOCK
+            - ACCOUNT_DELETION_PURGE
+            - REFERRAL_CODE
+            - EXTERNAL_CASHIN_BLOCK
+            - PROMOTIONALS
+            - BP_AND_TAE_BLOCK
+            - POSSIBLE_BLACKLISTED
+            - PENDING_ACCOUNT_COMPLIANCE_AML
+            - MISHANDLING_REQUEST_MONEY
+            - IDENTIFICATION_DOCUMENTS_EXPIRED
+            - INFORMATION_REQUEST_FIRST_WARN
+            - INFORMATION_REQUEST_SECOND_WARN
+            - IDENTIFICATION_DOCUMENTS_ANTISPOOF_NOT_PASSED
+            - IDENTIFICATION_DOCUMENTS_REJECTED
+            - GIFT_CARDS_BLOCK
+            - QR_MERCHANT_BLOCK
+            - DIGITAL_TOKEN_ENROLLMENT_BLOCK
+            - DIGITAL_TOKEN
+        blockedDate:
+          type: string
+          format: date-time
+        source:
+          type: string
+          enum:
+            - COMPLIANCE_AML_ACTION
+            - ONBOARDING_POSSIBLE_BLACKLIST
+            - CONEKTA_CHARGEBACK_RECEIVED
+            - FRAUD_TEAM_ACTION
+            - CALL_CENTER_CUSTOMER_SUPPORT
+            - POS_ACTIVATION_POSSIBLE_BLACKLIST
+            - CANCELLATION_PROCESS
+            - EXPIRED_IDENTIFICATION_DOCUMENTS_BATCH
+            - MONEY_REQUEST_SERVICE
+            - MOBILE_APP
+            - EXPIRED_INFORMATION_REQUEST_BATCH
+            - IDENTIFICATION_DOCUMENTS_ANTISPOOF_BATCH
+            - IDENTIFICATION_DOCUMENTS_REJECTED_XHASH
+    BankingAccountResponseDTO:
+      type: object
+      properties:
+        customerNumber:
+          type: string
+        accountNumber:
+          type: string
+        clabe:
+          type: string
+        clabeStatus:
+          type: string
+          enum:
+            - IN_REVIEW
+            - ACTIVE
+            - INACTIVE
+            - ERROR
+            - CREATED
+        clabeStatusDateTime:
+          type: string
+          format: date-time
+        clabeStatusDescription:
+          type: string
+        qualification:
+          type: integer
+          format: int32
+        cardReferenceNumber:
+          type: string
+        conektaCustomerId:
+          type: string
+        unlimited:
+          type: boolean
+        clabeSecondary:
+          type: string
+        alertNewClabeStartedAt:
+          type: string
+          format: date-time
+        clabeSecondaryChangedAt:
+          type: string
+          format: date-time
+        confirmClabeUpdatedAt:
+          type: string
+          format: date-time
+    BlockedAccountDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+        isBlocked:
+          type: boolean
+        blockCodes:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountBlockCodeDTO'
+        blockAccountCodes:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountBlockCodeDTO'
+        blockPhysicalCardCodes:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountBlockCodeDTO'
+        blockVirtualCardCodes:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountBlockCodeDTO'
+        blockedAccount:
+          type: boolean
+        blockedPhysicalCard:
+          type: boolean
+        blockedVirtualCard:
+          type: boolean
+    FullAccountListResponseDTO:
+      type: object
+      properties:
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/FullAccountResponseDTO'
+    FullAccountResponseDTO:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/AccountResponseDTO'
+        bankingAccount:
+          $ref: '#/components/schemas/BankingAccountResponseDTO'
+        blockedAccount:
+          $ref: '#/components/schemas/BlockedAccountDTO'
+        pendingAccountDTO:
+          $ref: '#/components/schemas/PendingAccountDTO'
+    FindAccountsByEmailRequestDTO:
+      required:
+        - email
+      type: object
+      properties:
+        email:
+          type: array
+          items:
+            type: string
+    CustomerRequestDTO:
+      required:
+        - curp
+        - identificationDocumentType
+        - panToken
+        - qualification
+        - userIdToIdentificationDocuments
+      type: object
+      properties:
+        loginReferenceId:
+          type: string
+        userId:
+          type: string
+        curp:
+          pattern: ^$|[a-zA-Z0-9]{18}
+          type: string
+        ineOcrNumber:
+          type: string
+        personalInfo:
+          $ref: '#/components/schemas/PersonalInfoDTO'
+        incodeSessionId:
+          type: string
+        qualification:
+          type: string
+          enum:
+            - N1_ACCOUNT
+            - N2_ACCOUNT
+            - N3_ACCOUNT
+            - N3_UNLIMITED_ACCOUNT
+        identificationDocumentType:
+          type: string
+          enum:
+            - INE
+        userIdToIdentificationDocuments:
+          type: string
+        panToken:
+          type: string
+        crPlaza:
+          type: string
+        crTienda:
+          type: string
+        storeId:
+          type: string
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        accountNumber:
+          type: string
+        documentValidationRequestDTO:
+          $ref: '#/components/schemas/DocumentValidationRequestDTO'
+    DocumentValidationRequestDTO:
+      type: object
+      properties:
+        documentProof:
+          type: string
+        documentProofString:
+          type: string
+        originCountry:
+          type: string
+    FindAccountByClabeNumberRequestDTO:
+      required:
+        - clabe
+      type: object
+      properties:
+        clabe:
+          type: string
+    FindAccountByCardReferenceNumberRequestDTO:
+      required:
+        - cardReferenceNumber
+      type: object
+      properties:
+        cardReferenceNumber:
+          type: string
+    CardReferenceNumberRequestDTO:
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+    AccountCancellationRequestDTO:
+      required:
+        - cancellationType
+        - channel
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        cancellationType:
+          type: string
+          enum:
+            - VOLUNTARY
+            - FRAUD
+            - MISHANDLING
+            - DECEASED
+            - INACTIVITY
+            - IT_FORCED
+        channel:
+          type: string
+        cancelledBy:
+          type: string
+        comments:
+          type: string
+        forceCancellation:
+          type: boolean
+    AccountCancellationResponseDTO:
+      type: object
+      properties:
+        cancellationErrors:
+          type: array
+          items:
+            type: string
+        rollbackErrors:
+          type: array
+          items:
+            type: string
+        cancellationResutls:
+          type: object
+          additionalProperties:
+            type: boolean
+        rollbackResults:
+          type: object
+          additionalProperties:
+            type: boolean
+        cancellationSucceeded:
+          type: boolean
+        rollbackSucceeded:
+          type: boolean
+    AccountBlockRequestDTO:
+      required:
+        - blockCode
+        - blockedBy
+        - source
+      type: object
+      properties:
+        userId:
+          type: string
+        accountNumber:
+          type: string
+        blockCode:
+          type: string
+          enum:
+            - COMPLIANCE_AML
+            - FRAUD
+            - MISHANDLING
+            - VOLUNTARY_CANCELLATION
+            - DECEASED
+            - POSSIBLE_ACCOUNT_FRAUD
+            - PREVENTIVE_ACCOUNT_BLOCK
+            - STOLEN_CARD
+            - LOST_CARD
+            - DAMAGED_CARD
+            - CONFIRMED_CARD_FRAUD
+            - POSSIBLE_CARD_FRAUD
+            - PREVENTIVE_CARD_BLOCK
+            - CARD_BUSSINESS_BLOCK
+            - ACCOUNT_DELETION_PURGE
+            - REFERRAL_CODE
+            - EXTERNAL_CASHIN_BLOCK
+            - PROMOTIONALS
+            - BP_AND_TAE_BLOCK
+            - POSSIBLE_BLACKLISTED
+            - PENDING_ACCOUNT_COMPLIANCE_AML
+            - MISHANDLING_REQUEST_MONEY
+            - IDENTIFICATION_DOCUMENTS_EXPIRED
+            - INFORMATION_REQUEST_FIRST_WARN
+            - INFORMATION_REQUEST_SECOND_WARN
+            - IDENTIFICATION_DOCUMENTS_ANTISPOOF_NOT_PASSED
+            - IDENTIFICATION_DOCUMENTS_REJECTED
+            - GIFT_CARDS_BLOCK
+            - QR_MERCHANT_BLOCK
+            - DIGITAL_TOKEN_ENROLLMENT_BLOCK
+            - DIGITAL_TOKEN
+        source:
+          type: string
+          enum:
+            - COMPLIANCE_AML_ACTION
+            - ONBOARDING_POSSIBLE_BLACKLIST
+            - CONEKTA_CHARGEBACK_RECEIVED
+            - FRAUD_TEAM_ACTION
+            - CALL_CENTER_CUSTOMER_SUPPORT
+            - POS_ACTIVATION_POSSIBLE_BLACKLIST
+            - CANCELLATION_PROCESS
+            - EXPIRED_IDENTIFICATION_DOCUMENTS_BATCH
+            - MONEY_REQUEST_SERVICE
+            - MOBILE_APP
+            - EXPIRED_INFORMATION_REQUEST_BATCH
+            - IDENTIFICATION_DOCUMENTS_ANTISPOOF_BATCH
+            - IDENTIFICATION_DOCUMENTS_REJECTED_XHASH
+        blockedBy:
+          type: string
+        comments:
+          type: string
+        operatorIdentifier:
+          type: string
+        cardType:
+          type: string
+          enum:
+            - VIRTUAL_CARD
+            - PHYSICAL_CARD
+        blockMadeByFiserv:
+          type: boolean
+    BillingInformationDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+        taxId:
+          type: string
+        legalName:
+          type: string
+        email:
+          type: string
+        billingType:
+          type: string
+          enum:
+            - BILL_PAYMENTS
+        taxRegimeCode:
+          type: string
+        zipCode:
+          type: string
+    AddressExtendedDTO:
+      required:
+        - street
+      type: object
+      properties:
+        zip:
+          pattern: \d{5}
+          type: string
+        street:
+          type: string
+        exterior:
+          type: string
+        interior:
+          type: string
+        municipality:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        updateAvailable:
+          type: boolean
+        manual:
+          type: boolean
+        reason:
+          type: string
+    PhoneVerificationMetadataDTO:
+      type: object
+      properties:
+        phoneVerificationConfirmationDate:
+          type: string
+          format: date-time
+        phoneVerificationDenialDate:
+          type: string
+          format: date-time
+        lastPhoneVerificationReminderDate:
+          type: string
+          format: date-time
+    UpdateCustomerProfileRequestDTO:
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        phoneNumber:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        pendingNewEmail:
+          type: string
+        address:
+          $ref: '#/components/schemas/AddressExtendedDTO'
+        phoneVerificationMetadata:
+          $ref: '#/components/schemas/PhoneVerificationMetadataDTO'
+        hasSpinCard:
+          type: boolean
+        countryOfBirthId:
+          type: string
+        nationalityIds:
+          type: array
+          items:
+            type: string
+        updatePersonalInfoRequestDTO:
+          $ref: '#/components/schemas/UpdatePersonalInfoRequestDTO'
+        curp:
+          type: string
+        updateIdentificationDocumentIneFrontDTO:
+          $ref: '#/components/schemas/UpdateIdentificationDocumentIneFrontDTO'
+        updateIdentificationDocumentIneBackDTO:
+          $ref: '#/components/schemas/UpdateIdentificationDocumentIneBackDTO'
+        overwrite:
+          type: boolean
+        recentlyUpdatedPhone:
+          type: boolean
+        expirationDetectedAt:
+          type: string
+          format: date-time
+        updateOrigin:
+          type: string
+        hasPayroll:
+          type: boolean
+        curpIntegrityProcessed:
+          type: boolean
+    UpdateIdentificationDocumentIneBackDTO:
+      type: object
+      properties:
+        cic:
+          type: string
+        cicDigitaCheck:
+          type: string
+        sectionAndConsecutive:
+          type: string
+        date:
+          type: string
+        dateCheckDigit:
+          type: string
+        gender:
+          type: string
+        expirationDate:
+          type: string
+        expirationDateDigit:
+          type: string
+        nationality:
+          type: string
+        emissionAndFuar:
+          type: string
+        name:
+          type: string
+        mothersLastName:
+          type: string
+        lastName:
+          type: string
+        ocrNumber:
+          type: string
+    UpdateIdentificationDocumentIneFrontDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        lastName:
+          type: string
+        mothersLastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        expirationDate:
+          type: string
+        gender:
+          type: string
+        curp:
+          type: string
+        street:
+          type: string
+        neighborhood:
+          type: string
+        zipCode:
+          type: string
+        city:
+          type: string
+        province:
+          type: string
+        electorKey:
+          type: string
+        control:
+          type: integer
+          format: int32
+        ineType:
+          type: string
+        emissionNumber:
+          type: string
+        stateId:
+          type: string
+        antiSpoofingResult:
+          type: string
+        antiSpoofingValidationAt:
+          type: string
+          format: date
+    UpdatePersonalInfoRequestDTO:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastNameP:
+          type: string
+        lastNameM:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        occupation:
+          type: string
+        countryOfBirth:
+          type: string
+        originCountry:
+          type: string
+        countryOfBirthId:
+          type: string
+        stateOfBirth:
+          type: string
+    LinkBankingAccountRequestDTO:
+      required:
+        - accountNumber
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        accountNumber:
+          type: string
+    UpdateIdentificationDocumentsResponseDTO:
+      type: object
+      properties:
+        granted:
+          type: boolean
+        hasError:
+          type: boolean
+        validationMessages:
+          type: array
+          items:
+            type: string
+    UpdateAccountPersonalInfoRequestDTO:
+      type: object
+      properties:
+        newEmail:
+          type: string
+        actionType:
+          type: string
+          enum:
+            - UNLOCK_EMAIL
+            - UNLOCK_PHONE
+            - UNLOCK_PASSWORD
+    DocumentRejectedRequestDTO:
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        antiSpoofingResult:
+          type: string
+          enum:
+            - NOT_EXECUTED
+            - PASSED
+            - NOT_PASSED
+            - BYPASSED
+            - FAILED
+        rejected:
+          type: boolean
+    ResetPendingAccountRequestDTO:
+      required:
+        - resetProperties
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        resetProperties:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            enum:
+              - PERSONAL_INFO
+              - ADDRESS
+              - EMAIL
+              - IN_REVIEW_PROCESS
+              - REVIEW_COMPLETED
+              - REVIEW_RESULT
+              - HAS_BEEN_BLOCKED
+              - HAS_VERIFIED
+              - HAS_FACEMATCH
+              - ONBOARDING_TYPE
+    UpdateFinalizeRequestDTO:
+      required:
+        - nonce
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        nonce:
+          type: string
+    LinkConektaCustomerIdRequestDTO:
+      required:
+        - conektaCustomerId
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        conektaCustomerId:
+          type: string
+    UserIdRequestDTO:
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+    UpdateTemporalEmailRequestDTO:
+      required:
+        - temporalNewEmail
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+        temporalNewEmail:
+          type: string
+    DeemAccountCompletedRequestDTO:
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+    ClabeStatusUpdateRequestDTO:
+      required:
+        - clabe
+        - status
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - IN_REVIEW
+            - ACTIVE
+            - INACTIVE
+            - ERROR
+            - CREATED
+        clabe:
+          pattern: \d{18}
+          type: string
+        description:
+          type: string
+    UpdateConfirmClabeSpeisRequestDTO:
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          type: string
+    GenerateAvatarResponseDTO:
+      type: object
+      properties:
+        location:
+          type: string
+    UserSearchListPropertiesDTO:
+      type: object
+      properties:
+        userIds:
+          type: array
+          items:
+            type: string
+        phones:
+          type: array
+          items:
+            type: string
+        emails:
+          type: array
+          items:
+            type: string
+        accountNumbers:
+          type: array
+          items:
+            type: string
+        curps:
+          type: array
+          items:
+            type: string
+        cache:
+          type: boolean
+        includeDeleted:
+          type: boolean
+        includeAllMatches:
+          type: boolean
+    CancelledAccountResponseDTO:
+      type: object
+      properties:
+        cancellationType:
+          type: string
+          enum:
+            - VOLUNTARY
+            - FRAUD
+            - MISHANDLING
+            - DECEASED
+            - INACTIVITY
+            - IT_FORCED
+        blockCode:
+          type: string
+    DocumentValidationResultDTO:
+      required:
+        - validationResult
+      type: object
+      properties:
+        hasError:
+          type: boolean
+        validationResult:
+          type: boolean
+        validationMessages:
+          type: array
+          items:
+            type: string
+        errorMessages:
+          type: array
+          items:
+            type: string
+        expDate:
+          type: string
+          format: date
+    IdentificationDocumentDTO:
+      type: object
+      properties:
+        imageId:
+          type: string
+        type:
+          type: string
+        ineFront:
+          $ref: '#/components/schemas/IneFrontResponseDTO'
+        ineBack:
+          $ref: '#/components/schemas/IneBackResponseDTO'
+        validationResult:
+          $ref: '#/components/schemas/DocumentValidationResultDTO'
+        antiSpoofingResult:
+          type: string
+        rejected:
+          type: boolean
+        expirationDetectedAt:
+          type: string
+          format: date-time
+        expiredBlockSet:
+          type: boolean
+        expiredBlockCardSet:
+          type: boolean
+        migration:
+          $ref: '#/components/schemas/MigrationDTO'
+    IdentificationDocumentsResponseDTO:
+      type: object
+      properties:
+        identificationDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdentificationDocumentDTO'
+        identificationDocumentType:
+          type: string
+    IneBackResponseDTO:
+      type: object
+      properties:
+        lines:
+          type: array
+          items:
+            type: string
+        cic:
+          type: string
+        cicDigitCheck:
+          type: string
+        isCicDigitCheckConsistent:
+          type: boolean
+        sectionAndConsecutive:
+          type: string
+        date:
+          type: string
+        dateCheckDigit:
+          type: string
+        gender:
+          type: string
+        expirationDate:
+          type: string
+        expirationDateDigit:
+          type: string
+        nationality:
+          type: string
+        emissionAndFuar:
+          type: string
+        name:
+          type: string
+        mothersLastName:
+          type: string
+        lastName:
+          type: string
+        ocrNumber:
+          type: string
+    IneFrontResponseDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        lastName:
+          type: string
+        mothersLastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        expirationDate:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        curp:
+          type: string
+        street:
+          type: string
+        neighborhood:
+          type: string
+        zipCode:
+          type: string
+        city:
+          type: string
+        province:
+          type: string
+        electorKey:
+          type: string
+        control:
+          type: string
+        ineType:
+          type: string
+        emissionNumber:
+          type: string
+        stateId:
+          type: string
+    MigrationDTO:
+      type: object
+      properties:
+        migrationStatus:
+          type: string
+          enum:
+            - FAILED
+            - NOT_UPLOADED
+            - PROCESS_ERROR
+            - SUCCESS
+            - UPLOADED
+            - UPLOAD_ERROR
+        message:
+          type: string
+        migratedAt:
+          type: string
+          format: date-time
+        newAntiSpoofingResult:
+          type: string
+    ProfileResponseDTO:
+      type: object
+      properties:
+        username:
+          type: string
+        commercialName:
+          type: string
+        businessName:
+          type: string
+        referralCode:
+          type: string
+        ineOcrNumber:
+          type: string
+        curp:
+          type: string
+        clabe:
+          type: string
+        personalInfo:
+          $ref: '#/components/schemas/PersonalInfoDTO'
+        signUpLocation:
+          $ref: '#/components/schemas/Location'
+        cardReferenceNumber:
+          type: string
+        avatarUrl:
+          type: string
+        qualification:
+          type: integer
+          format: int32
+        conektaCustomerId:
+          type: string
+        creationFlow:
+          type: string
+          enum:
+            - MOBILE
+            - POS
+            - MOBILE_SUPERAPP
+        onboardingCompleted:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        upgradedAt:
+          type: string
+          format: date-time
+        isPasswordBlocked:
+          type: boolean
+        hasSpinCard:
+          type: boolean
+        firstSpinCard:
+          type: boolean
+        confirmedEmail:
+          type: boolean
+        pendingNewEmail:
+          type: string
+        expirationDetectedAt:
+          type: string
+          format: date-time
+        sessionId:
+          type: string
+        relatedLegalAccountId:
+          type: string
+        teenId:
+          type: string
+        rfc:
+          type: string
+        personType:
+          type: string
+    UserResponseDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+        profile:
+          $ref: '#/components/schemas/ProfileResponseDTO'
+        bankingAccount:
+          $ref: '#/components/schemas/BankingAccountResponseDTO'
+        blockedAccount:
+          $ref: '#/components/schemas/BlockedAccountDTO'
+        pendingAccount:
+          $ref: '#/components/schemas/PendingAccountDTO'
+        phoneVerificationMetadata:
+          $ref: '#/components/schemas/PhoneVerificationMetadataDTO'
+        cancelledAccount:
+          $ref: '#/components/schemas/CancelledAccountResponseDTO'
+        identificationDocuments:
+          $ref: '#/components/schemas/IdentificationDocumentsResponseDTO'
+        billingInformation:
+          type: array
+          items:
+            $ref: '#/components/schemas/BillingInformationDTO'
+        emailConfirmedDate:
+          type: string
+          format: date-time
+        hasPayroll:
+          type: boolean
+        phoneConfirmed:
+          type: boolean
+        phoneDeniedByUser:
+          type: boolean
+    UserInfoRequestDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+        clabe:
+          type: string
+        clabeSecondary:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        pendingNewEmail:
+          type: string
+        curp:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        mothersLastName:
+          type: string
+        accountNumber:
+          type: string
+        referralCode:
+          type: string
+        username:
+          type: string
+        cardNumber:
+          type: string
+        rfc:
+          type: string
+        readFromSecondary:
+          type: boolean
+        includeProfile:
+          type: boolean
+        includeBankingAccount:
+          type: boolean
+        includeBlockedAccount:
+          type: boolean
+        includePendingAccount:
+          type: boolean
+        includeCancelledAccount:
+          type: boolean
+        includeIdentificationDocuments:
+          type: boolean
+        includeBillingInformation:
+          type: boolean
+        cache:
+          type: boolean
+    UserIdResponseDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+    TrackEvent:
+      required:
+        - createdAt
+        - status
+        - type
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - CREATED
+            - ERROR
+            - OK
+            - NEEDS_VERIFICATION
+            - BLACKLISTED
+            - PENDING
+            - REQUEST
+            - COMPLETED
+            - FAILED
+        type:
+          type: string
+          enum:
+            - START_POS
+            - START_MOBILE
+            - EMAIL
+            - LOGIN_CREDENTIALS
+            - PASSWORD
+            - IDENTIFICATION_DOCUMENT
+            - PERSONAL_INFORMATION
+            - ADDRESS
+            - IDENTITY_CHECK
+            - NOTIFICATIONS_SUBSCRIPTION
+            - ACCOUNT
+            - PIN
+            - BENEFICIARIES
+            - ACTIVATION
+            - SEND_IMAGE
+        description:
+          type: string
+        traceId:
+          type: string
+        data:
+          type: object
+          additionalProperties:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+    TrackResponseDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - ONBOARDING
+            - ACTIVATION
+        userId:
+          type: string
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrackEvent'
+    AgreementResponseDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+        policies:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyDTO'
+        createdAt:
+          type: string
+          format: date-time
+    AccountStatusDTO:
+      type: object
+      properties:
+        blocked:
+          type: boolean
+        blockCode:
+          type: string
+          enum:
+            - COMPLIANCE_AML
+            - FRAUD
+            - MISHANDLING
+            - VOLUNTARY_CANCELLATION
+            - DECEASED
+            - POSSIBLE_ACCOUNT_FRAUD
+            - PREVENTIVE_ACCOUNT_BLOCK
+            - STOLEN_CARD
+            - LOST_CARD
+            - DAMAGED_CARD
+            - CONFIRMED_CARD_FRAUD
+            - POSSIBLE_CARD_FRAUD
+            - PREVENTIVE_CARD_BLOCK
+            - CARD_BUSSINESS_BLOCK
+            - ACCOUNT_DELETION_PURGE
+            - REFERRAL_CODE
+            - EXTERNAL_CASHIN_BLOCK
+            - PROMOTIONALS
+            - BP_AND_TAE_BLOCK
+            - POSSIBLE_BLACKLISTED
+            - PENDING_ACCOUNT_COMPLIANCE_AML
+            - MISHANDLING_REQUEST_MONEY
+            - IDENTIFICATION_DOCUMENTS_EXPIRED
+            - INFORMATION_REQUEST_FIRST_WARN
+            - INFORMATION_REQUEST_SECOND_WARN
+            - IDENTIFICATION_DOCUMENTS_ANTISPOOF_NOT_PASSED
+            - IDENTIFICATION_DOCUMENTS_REJECTED
+            - GIFT_CARDS_BLOCK
+            - QR_MERCHANT_BLOCK
+            - DIGITAL_TOKEN_ENROLLMENT_BLOCK
+            - DIGITAL_TOKEN
+        accountNumber:
+          type: string
+        customerNumber:
+          type: string
+        clabe:
+          type: string
+        qualification:
+          type: integer
+          format: int32
+        cashInNumber:
+          type: string
+        blockCodes:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountBlockCodeDTO'
+        blockAccountCodes:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountBlockCodeDTO'
+        blockPhysicalCardCodes:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountBlockCodeDTO'
+        blockVirtualCardCodes:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountBlockCodeDTO'
+        blockedAccount:
+          type: boolean
+        blockedPhysicalCard:
+          type: boolean
+        blockedVirtualCard:
+          type: boolean
+    FormInstancePreviewDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        userId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum:
+            - NOT_STARTED
+            - IN_PROGRESS
+            - WAITING_FOR_APPROVAL
+            - EXPIRED
+            - REJECTED
+            - COMPLETED
+            - APPROVED
+            - ARCHIVED
+            - CANCELLED
+        mandatory:
+          type: boolean
+        deadline:
+          type: string
+          format: date
+        icon:
+          type: string
+        tokenRequired:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        rejectedAt:
+          type: string
+          format: date-time
+    ValidationsUpgradeN3ResponseDTO:
+      type: object
+      properties:
+        ineValid:
+          type: boolean
+        emailValidated:
+          type: boolean
+        pendingNewEmail:
+          type: boolean
+        faceMatchValidated:
+          type: boolean
+        faceMatchStatus:
+          type: string
+          enum:
+            - COMPLETED
+            - IN_REVIEW
+            - RETRY
+            - RETRY_WARNING
+        form:
+          $ref: '#/components/schemas/FormInstancePreviewDTO'
+        canCreateN3:
+          type: boolean
+        accountLevel:
+          type: integer
+          format: int32
+        occupationsNotAllowed:
+          type: array
+          items:
+            type: string
+        sessionId:
+          type: string
+        ineMigrated:
+          type: boolean
+    PendingAccountRequestDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+        phone:
+          type: string
+        readFromSecondary:
+          type: boolean
+    QrCodeResponseDTO:
+      type: object
+      properties:
+        qrCode:
+          type: string
+    BalanceResponseDTO:
+      type: object
+      properties:
+        availableBalance:
+          type: number
+          format: double
+        frozenBalance:
+          type: number
+          format: double
+        accountOrCardNumber:
+          type: string
+    AccountExistenceRequestDTO:
+      required:
+        - searchCriteria
+        - searchValue
+      type: object
+      properties:
+        searchCriteria:
+          type: string
+          enum:
+            - PHONE
+            - CURP
+            - EMAIL
+            - USER_ID
+            - BANKING_ACCOUNT
+            - CLABE
+            - OCR_NUMBER
+            - USERNAME
+        searchValue:
+          type: string
+    AccountExistenceResponseDTO:
+      type: object
+      properties:
+        exists:
+          type: boolean
+    BlockedAccountRequestDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+        accountNumber:
+          type: string
+        phone:
+          type: string
+        operatorIdentifier:
+          type: string
+        readFromSecondary:
+          type: boolean
+    BillingInformationGetRequestDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+        billingType:
+          type: string
+          enum:
+            - BILL_PAYMENTS
+    FemsaEmployeesDeleteRequestDTO:
+      required:
+        - curps
+      type: object
+      properties:
+        curps:
+          type: array
+          items:
+            type: string
+    SpinBlacklistedIdentityDeletionRequestDTO:
+      required:
+        - identifierType
+        - identityIdentifier
+      type: object
+      properties:
+        identityIdentifier:
+          type: string
+        identifierType:
+          type: string
+          enum:
+            - CURP
+            - PHONE
+            - DEVICE_ID
+    AccountUnblockRequestDTO:
+      required:
+        - blockCode
+      type: object
+      properties:
+        userId:
+          type: string
+        accountNumber:
+          type: string
+        blockCode:
+          type: string
+          enum:
+            - COMPLIANCE_AML
+            - FRAUD
+            - MISHANDLING
+            - VOLUNTARY_CANCELLATION
+            - DECEASED
+            - POSSIBLE_ACCOUNT_FRAUD
+            - PREVENTIVE_ACCOUNT_BLOCK
+            - STOLEN_CARD
+            - LOST_CARD
+            - DAMAGED_CARD
+            - CONFIRMED_CARD_FRAUD
+            - POSSIBLE_CARD_FRAUD
+            - PREVENTIVE_CARD_BLOCK
+            - CARD_BUSSINESS_BLOCK
+            - ACCOUNT_DELETION_PURGE
+            - REFERRAL_CODE
+            - EXTERNAL_CASHIN_BLOCK
+            - PROMOTIONALS
+            - BP_AND_TAE_BLOCK
+            - POSSIBLE_BLACKLISTED
+            - PENDING_ACCOUNT_COMPLIANCE_AML
+            - MISHANDLING_REQUEST_MONEY
+            - IDENTIFICATION_DOCUMENTS_EXPIRED
+            - INFORMATION_REQUEST_FIRST_WARN
+            - INFORMATION_REQUEST_SECOND_WARN
+            - IDENTIFICATION_DOCUMENTS_ANTISPOOF_NOT_PASSED
+            - IDENTIFICATION_DOCUMENTS_REJECTED
+            - GIFT_CARDS_BLOCK
+            - QR_MERCHANT_BLOCK
+            - DIGITAL_TOKEN_ENROLLMENT_BLOCK
+            - DIGITAL_TOKEN
+        blockedBy:
+          type: string
+        forcePermamentBlockCodeRemoval:
+          type: boolean
+        operatorIdentifier:
+          type: string
+        cardType:
+          type: string
+          enum:
+            - VIRTUAL_CARD
+            - PHYSICAL_CARD
