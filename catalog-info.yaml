@@ -5,5 +5,5 @@ metadata:
   description: A collection of all Backstage example entities, except users, groups, and templates
 spec:
   targets:
-    - spin-account-svc-component.yaml
+    - ./components/spin-account-svc.yaml
     - ./asyncapis/spin-account-svc-api.yaml
