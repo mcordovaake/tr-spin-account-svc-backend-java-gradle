@@ -6,4 +6,4 @@ metadata:
 spec:
   targets:
     - ./components/spin-account-svc.yaml
-    - ./asyncapis/spin-account-api.yaml
+    - ./asyncapis/spin-account-svc-api.yaml
