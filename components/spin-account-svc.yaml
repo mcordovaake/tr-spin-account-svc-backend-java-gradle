@@ -31,4 +31,4 @@ spec:
   owner: fintechdigitalventure/spin-pod-hercules-kyc
   lifecycle: production
 providesApi:
-  - spin-account-svc-api
+  - .././asyncapis/spin-account-svc-api
