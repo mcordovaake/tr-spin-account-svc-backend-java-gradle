@@ -26,9 +26,9 @@ metadata:
     snyk.io/org-id: 7f5a5f84-8619-47b1-92e2-cbc67a902765 # Id de la ORG
     snyk.io/targets: fintechdigitalventure/tr-spin-account-svc-backend-java-gradle,fintechdigitalventure_tr-spin-account-svc-backend-java-gradle #Id del proyecto (SAST y SCA) separados por comas
 spec:
-  system: spin_oxxo_pos_activacion_de_cuentas
   type: service
-  owner: fintechdigitalventure/spin-pod-hercules-kyc
   lifecycle: production
+  owner: fintechdigitalventure/spin-pod-hercules-kyc
+  system: spin_oxxo_pos_activacion_de_cuentas
   providesApis:
     - ./asyncapis/spin-account-svc-api
