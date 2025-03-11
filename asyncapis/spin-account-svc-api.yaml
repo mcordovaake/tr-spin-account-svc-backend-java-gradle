@@ -12,9 +12,9 @@ metadata:
       title: Source Code
       icon: code
 spec:
-  system: spin_oxxo_pos_activacion_de_cuentas
   type: asyncapi
-  owner: fintechdigitalventure/servicios-financieros-pod-hades
   lifecycle: production
+  owner: fintechdigitalventure/servicios-financieros-pod-hades
+  system: spin_oxxo_pos_activacion_de_cuentas
   definition:
     $text: ./spin-account-svc-aas.yaml
