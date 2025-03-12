@@ -27,3 +27,4 @@ jobs:
           targetBranch: main
           createPR: true
           message: 'Update Image Version'
+          token: ${{ secrets.TOKEN }}
