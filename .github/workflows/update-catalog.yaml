@@ -27,4 +27,3 @@ jobs:
           targetBranch: main
           createPR: true
           message: 'Update Image Version'
-          token: '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'
