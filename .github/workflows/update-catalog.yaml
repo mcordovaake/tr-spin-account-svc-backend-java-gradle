@@ -26,4 +26,5 @@ jobs:
           branch: deployment/v.1.0
           targetBranch: main
           createPR: true
-          message: 'Update Image Version' 
+          message: 'Update Image Version'
+          token: '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'
