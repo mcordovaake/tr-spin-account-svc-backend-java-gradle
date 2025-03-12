@@ -12,10 +12,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      #Update Catalog-info
       - name: Update values.yaml
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: 'catalog-info.yaml'
           propertyPath: 'spec.targets'
-          value: "- ./asyncapis/spin-account-svc-api-async.yaml"
-          commitChange: false
+          value: '- ./asyncapis/spin-account-svc-api-async.yaml'
+          branch: deployment/v1.0.1
+          targetBranch: main
+          createPR: 'true'
+          description: Test GitHub Action
+          message: 'Update All Images' 
+          title: 'Version Updates '
+          changes: |
+            {
+              "__tests__/fixtures/values.dev.yaml": {
+                "backend.version": "v1.0.1"
+              },
+            }
