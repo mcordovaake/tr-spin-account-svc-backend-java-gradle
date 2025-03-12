@@ -23,4 +23,7 @@ jobs:
           valueFile: 'catalog-info.yaml'
           propertyPath: 'spec.targets'
           value: '- ./asyncapis/spin-account-svc-api-async.yaml'
-          commitChange: false
+          branch: deployment/v.1.0
+          targetBranch: main
+          createPR: true
+          message: 'Update Image Version' 
