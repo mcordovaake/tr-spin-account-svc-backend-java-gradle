@@ -33,5 +33,5 @@ jobs:
             {
               "__tests__/fixtures/values.dev.yaml": {
                 "backend.version": "v1.0.1"
-              },
+              }
             }
