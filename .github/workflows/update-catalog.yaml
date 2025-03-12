@@ -6,6 +6,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   validate-and-publish-async-specification:
     name: Validate and Publish AsyncAPI Specification
