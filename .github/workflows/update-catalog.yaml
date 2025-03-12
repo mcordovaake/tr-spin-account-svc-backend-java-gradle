@@ -1,0 +1,21 @@
+name: Update Catalog to Backstage
+run-name: ${{ github.actor }} is Update catalog to Backstage 🚀
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-and-publish-async-specification:
+    name: Validate and Publish AsyncAPI Specification
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Update values.yaml
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'catalog-info.yaml'
+          propertyPath: 'spec.targets'
+          value: "- ./asyncapis/spin-account-svc-api-async.yaml"
+          commitChange: false
