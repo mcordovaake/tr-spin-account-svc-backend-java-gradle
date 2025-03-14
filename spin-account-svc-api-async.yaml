@@ -17,4 +17,4 @@ spec:
   owner: fintechdigitalventure/servicios-financieros-pod-hades
   system: spin_oxxo_pos_activacion_de_cuentas
   definition:
-    $text: ./spin-account-svc-api-aas.yaml
+    $text: ./ayncapis/spin-account-svc-api-aas.yaml
